@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+    <style>
+        body {
+            background-image: NULL;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2vh;
+        }
+
+        .container {
+            width: 80vw;
+            height: 70vh;
+            margin: 10vh auto 0;
+            padding: 1vh;
+            background-color: #fff;
+            border-radius: 1vh;
+            box-shadow: 0 0 1vh rgb(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            height: auto;
+            padding: 5%;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 1vh;
+            font-size: 2vh;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 2vh;
+            /* 间距 */
+        }
+
+        .button-container input[type="submit"],
+        .button-container a {
+            width: 20vw;
+            height: auto;
+            padding: 0.5vh;
+            color: #fff;
+            border: none;
+            border-radius: 1vh;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            font-size: 2vh;
+        }
+
+        .button-container input[type="submit"] {
+            background-color: #4cad50;
+        }
+
+        .button-container a {
+            background-color: #007bff;
+        }
+
+        .error {
+            font-size: 2vh;
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>注册</h1>
+        <form id="registerForm" method="POST" action="register.php">
+            <input type="text" id="username" name="username" placeholder="*用户名">
+            <input type="password" id="password" name="password" placeholder="*密码">
+            <input type="text" id="email" name="email" placeholder="*邮箱">
+            <div class="button-container">
+                <input type="submit" value="注册">
+                <a href="login.html">登录</a>
+            </div>
+            <div id="error" class="error"></div>
+        </form>
+    </div>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function (e) {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const errorDiv = document.getElementById('error');
+
+            errorDiv.textContent = '';
+            if (!username || !password || !email) {
+                errorDiv.textContent = '*字段为必填项。';
+                e.preventDefault(); // 阻止表单提交
+                return;
+            }
+
+            if (password.length < 8) {
+                errorDiv.textContent = '密码必须至少8个字符。';
+                e.preventDefault(); // 阻止表单提交
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                errorDiv.textContent = '请输入有效的邮箱地址。';
+                e.preventDefault(); // 阻止表单提交
+                return;
+            }
+
+            // 可以继续添加其他的验证逻辑
+
+            // 如果通过所有验证，可以继续提交表单
+        });
+
+        // 获取URL参数
+        const params = new URLSearchParams(window.location.search);
+        const error = params.get('error');
+        if (error) {
+            document.getElementById('error').textContent = error;
+        }
+    </script>
+</body>
+
+</html>
